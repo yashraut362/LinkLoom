@@ -1,8 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const ShortUrl = require("./models/shortUrl");
+const ShortUrl = require("../models/shortUrl");
 const app = express();
+const serverless = require("serverless-http");
 require("dotenv").config();
+const router = express.Router();
 const DbUrl = process.env.MongoDBUrl;
 
 mongoose
@@ -26,7 +28,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal Server Error" });
 });
 
-app.get("/:shortUrl", async (req, res) => {
+router.get("/:shortUrl", async (req, res) => {
   try {
     const result = await ShortUrl.findOne({ shortLink: req.params.shortUrl });
     if (!result) return res.sendStatus(404);
@@ -39,7 +41,7 @@ app.get("/:shortUrl", async (req, res) => {
   }
 });
 
-app.post("/shortUrl", async (req, res) => {
+router.post("/shortUrl", async (req, res) => {
   try {
     const { fullLink } = req.body;
     if (!fullLink) {
@@ -59,7 +61,11 @@ app.post("/shortUrl", async (req, res) => {
   }
 });
 
+app.use("/.netlify/functions/api", router);
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
+
+module.exports.handler = serverless(app);
