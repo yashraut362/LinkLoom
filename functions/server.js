@@ -61,7 +61,7 @@ router.post("/shortUrl", async (req, res) => {
   }
 });
 
-app.use("/.netlify/functions/api", router);
+app.use("/.netlify/functions/server", router);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
