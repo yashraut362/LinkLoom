@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "linkshortner app backend build with node and express.js",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"
   },
