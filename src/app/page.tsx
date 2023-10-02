@@ -20,13 +20,17 @@ export default function Home() {
     }).then((res) => {
       setshortLink(window.origin + "/" + res.data.result.shortLink)
     }).catch((err) => {
+      alert('Something went wrong')
       console.log(err)
     });
 
   };
 
+  const OpenLink = () => { }
+
   const copyLink = () => {
-    console.log(shortLink)
+    document.execCommand(shortLink);
+    navigator.clipboard.writeText(shortLink);
   }
   return (
     <section className="bg-white">
@@ -80,32 +84,38 @@ export default function Home() {
             {shortLink && (
               <div className="flex flex-col md:flex-row items-center justify-between pt-10 lg:pt-0">
                 <div>
-
                   <QRCode
                     value={shortLink}
                     bgColor={back}
                     fgColor={fore}
                     size={size}
                   />
-
                 </div>
-                <div className="relative w-full md:w-2/4">
-                  <input
-                    type="text"
-                    value={shortLink}
-                    disabled
-                    onChange={(e) => setshortLink(e.target.value)}
-                    className="p-2.5 w-full rounded-md border border-gray-200 bg-white text-base text-gray-700 shadow-sm"
-                  />
-                  <button
-                    onClick={copyLink}
-                    type="submit"
+                <div className=" w-full md:w-2/4">
+                  <div className=" flex flex-col">
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={shortLink}
+                        disabled
+                        onChange={(e) => setshortLink(e.target.value)}
+                        className="p-2.5 w-full rounded-md border border-gray-200 bg-white text-base text-gray-700 shadow-sm"
+                      />
+                      <button
+                        onClick={copyLink}
+                        type="submit"
 
-                    className="text-white absolute right-1 bottom-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-                  >
-                    Copy
-                  </button>
+                        className="text-white absolute right-1 bottom-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                    <button onClick={OpenLink} className="inline-block mt-2 shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                      Open in new tab
+                    </button>
+                  </div>
                 </div>
+
               </div>
             )}
             <form action="#" className="mt-8 grid grid-cols-6 gap-4">
