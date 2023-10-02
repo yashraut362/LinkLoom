@@ -6,7 +6,7 @@ const serverless = require("serverless-http");
 require("dotenv").config();
 const router = express.Router();
 const DbUrl = process.env.MongoDBUrl;
-
+const cors = require("cors");
 mongoose
   .connect(DbUrl, {
     useNewUrlParser: true,
@@ -21,7 +21,7 @@ mongoose
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
+app.use(cors());
 // Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
