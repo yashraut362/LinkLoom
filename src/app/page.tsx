@@ -1,9 +1,8 @@
 "use client";
-
 import axios from "axios";
-import Image from "next/image";
 import { useState } from "react";
 import QRCode from "react-qr-code";
+import Link from "next/link";
 
 export default function Home() {
   const [longLink, setlongLink] = useState("");
@@ -11,27 +10,26 @@ export default function Home() {
   const [back, setBack] = useState("#FFFFFF");
   const [fore, setFore] = useState("#000000");
   const [size, setSize] = useState(256);
-
   const makeshortLink = async (e: any) => {
     e.preventDefault();
-    setshortLink('')
-    axios.post('https://linkloom.netlify.app/api/shortUrl', {
-      fullLink: longLink
-    }).then((res) => {
-      setshortLink(window.origin + "/" + res.data.result.shortLink)
-    }).catch((err) => {
-      alert('Something went wrong')
-      console.log(err)
-    });
-
+    setshortLink("");
+    axios
+      .post("https://linkloom.netlify.app/api/shortUrl", {
+        fullLink: longLink,
+      })
+      .then((res) => {
+        setshortLink(window.origin + "/" + res.data.result.shortLink);
+      })
+      .catch((err) => {
+        alert("Something went wrong");
+        console.log(err);
+      });
   };
-
-  const OpenLink = () => { }
 
   const copyLink = () => {
     document.execCommand(shortLink);
     navigator.clipboard.writeText(shortLink);
-  }
+  };
   return (
     <section className="bg-white">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
@@ -104,18 +102,19 @@ export default function Home() {
                       <button
                         onClick={copyLink}
                         type="submit"
-
                         className="text-white absolute right-1 bottom-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
                       >
                         Copy
                       </button>
                     </div>
-                    <button onClick={OpenLink} className="inline-block mt-2 shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
-                      Open in new tab
-                    </button>
+                    <Link
+                      href={`${shortLink}`}
+                      className="inline-block mt-2 shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                    >
+                      Open Link
+                    </Link>
                   </div>
                 </div>
-
               </div>
             )}
             <form action="#" className="mt-8 grid grid-cols-6 gap-4">
@@ -136,7 +135,10 @@ export default function Home() {
               </div>
 
               <div className="flex items-center">
-                <button onClick={makeshortLink} className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                <button
+                  onClick={makeshortLink}
+                  className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                >
                   Make it short
                 </button>
               </div>
