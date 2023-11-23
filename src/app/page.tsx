@@ -18,7 +18,7 @@ export default function Home() {
         fullLink: longLink,
       })
       .then((res) => {
-        setshortLink(window.origin + "/" + res.data.result.shortLink);
+        setshortLink("https://linkloom.netlify.app/api/" + res.data.result.shortLink);
       })
       .catch((err) => {
         alert("Something went wrong");
@@ -107,12 +107,13 @@ export default function Home() {
                         Copy
                       </button>
                     </div>
-                    <Link
+                    <a
+                      target="_blank"
                       href={`${shortLink}`}
                       className="inline-block mt-2 shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
                     >
                       Open Link
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>
